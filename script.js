@@ -9,15 +9,15 @@ async function GetPhotos() {
   return data;
 }
 
-async function showPhotos() {
-  const photos = await GetPhotos();
-  photos.forEach((element) => {
-    console.log(element.urls.regular);
-    const listItem = document.createElement("li");
-    const img = document.createElement("img");
-    img.src = element.urls.small;
-    listItem.append(img);
-    unorderedList.append(listItem);
-  });
-}
-showPhotos();
+// async function showPhotos() {
+//   const photos = await GetPhotos();
+//   photos.forEach((element) => {
+//     console.log(element.urls.regular);
+//     const listItem = document.createElement("li");
+//     const img = document.createElement("img");
+//     img.src = element.urls.small;
+//     listItem.append(img);
+//     unorderedList.append(listItem);
+//   });
+// }
+// showPhotos();

@@ -3,10 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Unsplash</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="shortcut icon"
+      href="./resources/images/Logo.png"
+      type="image/x-icon"
+    />
+    <title>ShutterPalette</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Lilita+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
+    <header>
+      <div id="Logo">
+        <img src="./resources/images/Logo.png" alt="ShutterPalette Logo" />
+        <span>Unsplash</span>
+      </div>
+      <div id="searchBar">
+        <label for="searchInput"
+          ><img src="./resources/Images/search.png" /></label
+        ><input id="searchInput" />
+      </div>
+    </header>
     <ul style="display: flex; flex-direction: column" id="unorderedList"></ul>
     <script src="script.js"></script>
   </body>
