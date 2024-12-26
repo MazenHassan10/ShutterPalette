@@ -61,17 +61,16 @@ header #searchBar input {
   border-radius: 20px;
   position: relative;
   overflow: hidden;
-  object-fit: cover;
-  object-position: center;
 }
 .picture {
   height: 100%;
 }
 .picture img {
-  height: 100%;
+  object-fit: cover;
+  object-position: center;
   width: 100%;
+  height: 100%;
 }
-
 .picture-metadata {
   position: absolute;
   bottom: 10px;
