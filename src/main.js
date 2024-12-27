@@ -1,3 +1,5 @@
+import { keywords, getRandomKeyword } from "./RandomKeyWordsDB.js";
+console.log(getRandomKeyword());
 // DOM Elements
 const unorderedList = document.getElementById("unorderedList");
 const grid = document.querySelector(".grid");
@@ -6,6 +8,7 @@ const nextButton = document.getElementById("next");
 const currentPage = document.getElementById("currentPage");
 const searchForm = document.getElementById("searchForm");
 const formSubmitButton = document.getElementById("submitBotton");
+const randomPhotosButton = document.getElementById("RandomPhotosButton");
 
 // Constants
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
@@ -115,5 +118,22 @@ formSubmitButton.addEventListener("click", () => {
   currentPage.textContent = pageCount;
 });
 
+async function getRandomPhotos() {
+  const response = await fetch(
+    `https://api.unsplash.com/photos/random?count=1`,
+    { headers: { Authorization: CLIENT_ID } }
+  );
+  const data = await response.json();
+  console.log(data);
+}
+
+randomPhotosButton.addEventListener("click", () => {
+  grid.innerHTML = "";
+  pageCount = 1;
+  const randomWord = getRandomKeyword();
+  searchForm.query.value = randomWord;
+  showPhotos(randomWord);
+  currentPage.textContent = pageCount;
+});
 // Initialize the app by showing photos without any search query
 showPhotos();

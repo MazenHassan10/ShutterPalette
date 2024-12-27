@@ -4,13 +4,15 @@
   box-sizing: border-box;
   font-family: "Lilita One";
 }
-
+body {
+  background-color: #f5efff;
+}
 header {
   height: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f5efff;
+  background-color: #e5d9f2;
   position: relative;
 }
 header #Logo {
@@ -131,7 +133,7 @@ header #searchBar button {
   transition: background-color 0.5s ease-in-out;
 }
 #pagination button:hover {
-  background-color: #a8a8a8;
+  background-color: #cdc1ff;
   transition: background-color 0.5s ease-in-out;
 }
 #pagination #currentPage {
