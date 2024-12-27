@@ -24,14 +24,23 @@
         <span>ShutterPalette</span>
       </div>
       <div id="searchBar">
-        <label for="searchInput"
-          ><img src="./resources/Images/search.png" /></label
-        ><input id="searchInput" />
+        <form id="searchForm">
+          <label for="searchInput">
+            <img src="./resources/Images/search.png" alt="Search Icon" />
+          </label>
+          <input
+            type="text"
+            id="searchInput"
+            name="query"
+            placeholder="Search..."
+          />
+        </form>
+        <button type="submit" id="submitBotton">Submit</button>
       </div>
     </header>
     <main id="root">
       <div class="grid">
-        <div class="picture-card">
+        <!-- <div class="picture-card">
           <div class="picture">
             <img src="./resources/Images/IMG_1229.jpg" />
           </div>
@@ -39,7 +48,12 @@
             <img src="./resources/Images/IMG_1229.jpg" />
             <span>Mazen Hassan</span>
           </div>
-        </div>
+        </div> -->
+      </div>
+      <div id="pagination">
+        <button id="previous">Previous</button>
+        <span id="currentPage">1</span>
+        <button id="next">Next</button>
       </div>
     </main>
     <script src="script.js"></script>
