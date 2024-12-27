@@ -23,34 +23,26 @@
         <img src="./resources/images/Logo.png" alt="ShutterPalette Logo" />
         <span>ShutterPalette</span>
       </div>
-      <div id="searchBar">
-        <form id="searchForm">
-          <label for="searchInput">
-            <img src="./resources/Images/search.png" alt="Search Icon" />
-          </label>
-          <input
-            type="text"
-            id="searchInput"
-            name="query"
-            placeholder="Search..."
-          />
-        </form>
-        <button type="submit" id="submitBotton">Search</button>
-        <button id="RandomPhotosButton">Random Photos</button>
+      <div class="searchOptions">
+        <div id="searchBar">
+          <form id="searchForm">
+            <label for="searchInput">
+              <img src="./resources/Images/search.png" alt="Search Icon" />
+            </label>
+            <input
+              type="text"
+              id="searchInput"
+              name="query"
+              placeholder="Search..."
+            />
+          </form>
+          <button type="submit" id="submitBotton">Search</button>
+        </div>
+        <button id="RandomPhotosButton">Random</button>
       </div>
     </header>
     <main id="root">
-      <div class="grid">
-        <!-- <div class="picture-card">
-          <div class="picture">
-            <img src="./resources/Images/IMG_1229.jpg" />
-          </div>
-          <div class="picture-metadata">
-            <img src="./resources/Images/IMG_1229.jpg" />
-            <span>Mazen Hassan</span>
-          </div>
-        </div> -->
-      </div>
+      <div class="grid"></div>
       <div id="pagination">
         <button id="previous">Previous</button>
         <span id="currentPage">1</span>

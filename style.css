@@ -10,7 +10,7 @@ body {
 header {
   height: 10vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: #e5d9f2;
   position: relative;
@@ -18,9 +18,10 @@ header {
 header #Logo {
   display: flex;
   align-items: center;
-  position: absolute;
-  left: 2rem;
+  margin-left: 2rem;
+  cursor: pointer;
 }
+
 header #Logo img {
   height: 40px;
 }
@@ -31,6 +32,11 @@ header #Logo span {
 }
 
 /*** search bar ****/
+header .searchOptions {
+  display: flex;
+  margin-right: 5px;
+  gap: 0.2rem;
+}
 header #searchBar {
   display: flex;
   align-items: center;
@@ -41,7 +47,7 @@ header #searchForm {
   display: flex;
   align-items: center;
   padding: 5px 0px 5px 10px;
-  width: 30rem;
+  flex: 1;
 }
 header #searchForm label img {
   height: 30px;
@@ -51,7 +57,6 @@ header #searchForm input {
   width: 100%;
   padding-left: 1rem;
   font-size: 1.5rem;
-  display: flex;
 }
 header #searchBar button {
   all: unset;
@@ -60,6 +65,15 @@ header #searchBar button {
   font-size: 1.5rem;
   cursor: pointer;
   border-radius: 0 50px 50px 0;
+  padding: 0 5px;
+}
+header #RandomPhotosButton {
+  all: unset;
+  background-color: #cdc1ff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border: 1.8px solid black;
+  border-radius: 50px;
   padding: 8px;
 }
 #root {
@@ -73,7 +87,7 @@ header #searchBar button {
 }
 
 .picture-card {
-  border-radius: 20px;
+  border-radius: 8px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -100,19 +114,44 @@ header #searchBar button {
   border-radius: 100%;
   object-fit: cover;
 }
-.picture-metadata span {
-  margin-left: 10px;
-  color: #f5efff;
+.metadataRightSide {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5rem;
+  align-items: flex-start;
 }
-
+.metadataRightSide .download-btn {
+  position: relative;
+  all: unset;
+  color: #e5d9f2;
+  text-align: left;
+  z-index: 6;
+}
+.metadataRightSide .download-btn:hover {
+  color: #5800f4;
+}
+.picture-metadata span {
+  color: #f5efff;
+  text-align: left;
+}
 .picture-card:hover .picture-metadata {
   display: flex;
   transition: display 1s ease-in-out;
 }
 .picture-card:hover .picture img {
   transform: scale(1.1);
-  transition: transform 0.5s ease-in-out;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5); /* Inner shadow */
+  transition: transform 0.4s ease-in-out;
+}
+.pic-shadow {
+  position: absolute;
+  inset: 0;
+  transition: box-shadow 0.3s ease-in-out;
+  z-index: 5;
+}
+.picture-card:hover {
+  & .pic-shadow {
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+  }
 }
 
 #pagination {
@@ -138,4 +177,85 @@ header #searchBar button {
 }
 #pagination #currentPage {
   font-size: 1.5rem;
+}
+
+@media screen and (min-width: 600px) and (max-width: 1024px) {
+  /* Your styles for tablets go here */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 22rem;
+    gap: 0.5rem;
+  }
+  #root {
+    padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  /* Your styles for phones go here */
+  header {
+    height: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+  header #Logo {
+    margin-left: 0;
+  }
+  header #Logo img {
+    height: 30px;
+  }
+  header #Logo span {
+    margin-left: 5px;
+    font-weight: 400;
+    font-size: 1.5rem;
+  }
+
+  /*** search bar ****/
+  header .searchOptions {
+    display: flex;
+  }
+  header #searchBar {
+    display: flex;
+    align-items: center;
+    border: 1.8px solid black;
+    border-radius: 50px;
+  }
+  header #searchForm {
+    /* display: flex;
+    align-items: center;
+    flex: 1; */
+    padding: 5px 0px 5px 10px;
+  }
+  header #searchForm label img {
+    height: 20px;
+  }
+  header #searchForm input {
+    padding-left: 0.8rem;
+    font-size: 1.1rem;
+  }
+  header #searchBar button {
+    background-color: #cdc1ff;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0 50px 50px 0;
+    padding: 0px 3px;
+  }
+  header #RandomPhotosButton {
+    font-size: 1rem;
+    cursor: pointer;
+    border: 1.8px solid black;
+    border-radius: 50px;
+    padding: 8px;
+  }
+  #root {
+    padding: 0.5rem;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 15rem;
+    gap: 0.5rem;
+  }
 }

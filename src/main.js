@@ -1,8 +1,8 @@
 import { keywords, getRandomKeyword } from "./RandomKeyWordsDB.js";
 console.log(getRandomKeyword());
 // DOM Elements
-const unorderedList = document.getElementById("unorderedList");
 const grid = document.querySelector(".grid");
+const logo = document.getElementById("Logo");
 const previousButton = document.getElementById("previous");
 const nextButton = document.getElementById("next");
 const currentPage = document.getElementById("currentPage");
@@ -22,8 +22,9 @@ async function showPhotos(query = "") {
 function createPhotoCard(photo) {
   const pictureCard = document.createElement("div");
   pictureCard.classList.add("picture-card");
-
   // Create and append the image for the photo
+  const boxShadow = document.createElement("div");
+  boxShadow.classList.add("pic-shadow");
   const pictureDiv = document.createElement("div");
   pictureDiv.classList.add("picture");
   const picture = document.createElement("img");
@@ -34,14 +35,23 @@ function createPhotoCard(photo) {
   metadataDiv.classList.add("picture-metadata");
   const userPicture = document.createElement("img");
   userPicture.src = photo.user.profile_image.small;
+  const metadataRightSide = document.createElement("div");
+  metadataRightSide.classList.add("metadataRightSide");
   const userName = document.createTextNode(photo.user.name);
   const userNameSpan = document.createElement("span");
   userNameSpan.append(userName);
+  const downloadLink = document.createElement("a");
+  downloadLink.classList.add("download-btn");
+  downloadLink.href = photo.links.download;
+  downloadLink.download = "photo.jpg";
+  downloadLink.textContent = "Download Photo";
+  downloadLink.target = "_blank";
+  metadataRightSide.append(userNameSpan, downloadLink);
 
   // Append metadata and picture to the card
-  metadataDiv.append(userPicture, userNameSpan);
+  metadataDiv.append(userPicture, metadataRightSide);
   pictureDiv.append(picture);
-  pictureCard.append(pictureDiv, metadataDiv);
+  pictureCard.append(boxShadow, pictureDiv, metadataDiv);
 
   grid.append(pictureCard);
 }
@@ -73,7 +83,7 @@ async function getPaginatedSearchPhotos(query = "") {
   response = await fetch(url, { headers: { Authorization: CLIENT_ID } });
   const data = await response.json();
   photos = query.length > 0 ? data.results : data;
-
+  console.log(photos);
   // Get page relations from response headers
   pageRelations = await getPageRelations(response);
   return photos;
@@ -118,21 +128,19 @@ formSubmitButton.addEventListener("click", () => {
   currentPage.textContent = pageCount;
 });
 
-async function getRandomPhotos() {
-  const response = await fetch(
-    `https://api.unsplash.com/photos/random?count=1`,
-    { headers: { Authorization: CLIENT_ID } }
-  );
-  const data = await response.json();
-  console.log(data);
-}
-
 randomPhotosButton.addEventListener("click", () => {
   grid.innerHTML = "";
   pageCount = 1;
   const randomWord = getRandomKeyword();
   searchForm.query.value = randomWord;
   showPhotos(randomWord);
+  currentPage.textContent = pageCount;
+});
+logo.addEventListener("click", () => {
+  grid.innerHTML = "";
+  searchForm.query.value = "";
+  pageCount = 1;
+  showPhotos();
   currentPage.textContent = pageCount;
 });
 // Initialize the app by showing photos without any search query
