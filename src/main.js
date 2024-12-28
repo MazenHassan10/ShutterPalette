@@ -15,7 +15,18 @@ const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 // Fetch and display photos based on search query or default
 async function showPhotos(query = "") {
   const photos = await getPaginatedSearchPhotos(query);
-  photos.forEach(createPhotoCard);
+
+  // Create a fragment to hold all photo cards
+  const fragment = document.createDocumentFragment();
+
+  // Create photo cards and append them to the fragment
+  photos.forEach((photo) => {
+    const pictureCard = createPhotoCard(photo);
+    fragment.appendChild(pictureCard);
+  });
+
+  // Append the fragment to the grid
+  grid.appendChild(fragment);
 }
 
 // Create individual photo cards and append them to the grid
@@ -54,7 +65,7 @@ function createPhotoCard(photo) {
   pictureDiv.append(picture);
   pictureCard.append(boxShadow, pictureDiv, metadataDiv);
 
-  grid.append(pictureCard);
+  return pictureCard;
 }
 
 // Fetch page relations (previous/next page URLs)
