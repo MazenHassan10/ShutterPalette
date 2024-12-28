@@ -22,6 +22,7 @@ async function showPhotos(query = "") {
 function createPhotoCard(photo) {
   const pictureCard = document.createElement("div");
   pictureCard.classList.add("picture-card");
+  pictureCard.tabIndex = 0;
   // Create and append the image for the photo
   const boxShadow = document.createElement("div");
   boxShadow.classList.add("pic-shadow");

@@ -138,7 +138,8 @@ header #RandomPhotosButton {
   text-align: left;
 }
 
-.picture-card:hover .picture-metadata {
+.picture-card:hover .picture-metadata,
+.picture-shadow:focus .picture-metadata {
   opacity: 1;
   visibility: visible;
 }
