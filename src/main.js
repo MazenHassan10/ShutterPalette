@@ -12,6 +12,8 @@ const randomPhotosButton = document.getElementById("RandomPhotosButton");
 
 // Constants
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
+const pageState = {}; // Will store data per query and page
+let isFetchingNextPage = false; // Flag to check if we are fetching the next page
 // Fetch and display photos based on search query or default
 async function showPhotos(query = "") {
   const photos = await getPaginatedSearchPhotos(query);
@@ -24,7 +26,6 @@ async function showPhotos(query = "") {
     const pictureCard = createPhotoCard(photo);
     fragment.appendChild(pictureCard);
   });
-
   // Append the fragment to the grid
   grid.appendChild(fragment);
 }
@@ -68,44 +69,72 @@ function createPhotoCard(photo) {
   return pictureCard;
 }
 
-// Fetch page relations (previous/next page URLs)
-async function getPageRelations(response) {
-  const links = response.headers.get("Link").split(",");
-  return links.map((link) =>
-    link.split("=")[link.split("=").length - 1].slice(1, -1)
-  );
-}
-
-// Set initial state for page relations and page count
-let pageRelations = [];
+// Set initial state for page count
 let pageCount = 1;
 
 // Fetch photos for the current page and query (if provided)
 async function getPaginatedSearchPhotos(query = "") {
-  let response;
-  let photos;
+  // Check if we already have the current page
+  if (pageState[query] && pageState[query][pageCount]) {
+    !pageState[query][pageCount + 1] ? fetchNextPage(query) : null;
+    return pageState[query][pageCount];
+  }
 
-  // Determine URL based on whether there's a search query or not
+  // Fetch the current page from the API
   const url =
     query.length > 0
       ? `https://api.unsplash.com/search/photos?page=${pageCount}&query=${query}&per_page=20`
       : `https://api.unsplash.com/photos?page=${pageCount}&per_page=20`;
 
-  // Fetch the data
-  response = await fetch(url, { headers: { Authorization: CLIENT_ID } });
+  const response = await fetch(url, { headers: { Authorization: CLIENT_ID } });
   const data = await response.json();
-  photos = query.length > 0 ? data.results : data;
-  console.log(photos);
-  // Get page relations from response headers
-  pageRelations = await getPageRelations(response);
+  const photos = query.length > 0 ? data.results : data;
+
+  // Initialize the state for this query if it doesn't exist
+  if (!pageState[query]) {
+    pageState[query] = {};
+  }
+
+  // Store the fetched data for the current page
+  pageState[query][pageCount] = photos;
+  // If we aren't already fetching the next page, start fetching it in the background
+
+  fetchNextPage(query);
+
   return photos;
+}
+
+async function fetchNextPage(query) {
+  // Check if the next page has already been fetched for this query
+  if (pageState[query] && pageState[query][pageCount + 1]) {
+    return; // No need to fetch again
+  }
+
+  const nextPage = pageCount + 1;
+
+  // Fetch the next page data
+  const url =
+    query.length > 0
+      ? `https://api.unsplash.com/search/photos?page=${nextPage}&query=${query}&per_page=20`
+      : `https://api.unsplash.com/photos?page=${nextPage}&per_page=20`;
+
+  const response = await fetch(url, { headers: { Authorization: CLIENT_ID } });
+  const data = await response.json();
+  const photos = query.length > 0 ? data.results : data;
+
+  // Store the next page data in the state
+  if (!pageState[query]) {
+    pageState[query] = {};
+  }
+
+  pageState[query][nextPage] = photos;
 }
 
 // Event listeners for pagination and form submission
 
 // Handle "previous" button click
 previousButton.addEventListener("click", () => {
-  if (pageRelations.includes("prev")) {
+  if (pageCount > 1) {
     pageCount--;
     grid.innerHTML = "";
     showPhotos(searchForm.query.value);
@@ -115,12 +144,10 @@ previousButton.addEventListener("click", () => {
 
 // Handle "next" button click
 nextButton.addEventListener("click", () => {
-  if (pageRelations.includes("next")) {
-    pageCount++;
-    grid.innerHTML = "";
-    showPhotos(searchForm.query.value);
-    currentPage.textContent = pageCount;
-  }
+  pageCount++;
+  grid.innerHTML = "";
+  showPhotos(searchForm.query.value);
+  currentPage.textContent = pageCount;
 });
 
 // Handle form submission
